@@ -1,0 +1,5 @@
+{
+  "name": "NOVA Drive",
+  "description": "A cloud storage application with backup and restore features.",
+  "requestFramePermissions": []
+}
