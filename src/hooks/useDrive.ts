@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import localforage from 'localforage';
 import { DriveFile, DriveFolder } from '../types';
 
-const INITIAL_QUOTA_GB = 500000;
+const INITIAL_QUOTA_GB = 3;
 const BYTES_PER_GB = 1024 * 1024 * 1024;
 
 // Initialize localforage stores
@@ -228,7 +228,7 @@ export function useDrive() {
     await loadData();
   };
 
-  const addStorageQuota = async (gbToAdd: number = 1) => {
+  const addStorageQuota = async (gbToAdd: number = 2) => {
     const newQuota = quotaBytes + (gbToAdd * BYTES_PER_GB);
     setQuotaBytes(newQuota);
     await settingsStore.setItem('quotaBytes', newQuota);

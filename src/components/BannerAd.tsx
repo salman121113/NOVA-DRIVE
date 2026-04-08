@@ -18,9 +18,14 @@ export function BannerAd() {
   }, []);
 
   return (
-    <div classname="w-full h-14 bg-gray-100 border-b border-gray-200 overflow-hidden shrink-0 relative flex items-center justify-center">
-      <div classname="absolute inset-0 flex items-center justify-center text-xs text-gray-400">Advertisement</div>
-      <iframe src="{AD_LINKS[adIndex]}" classname="relative z-10 w-full h-full border-0" sandbox="allow-scripts allow-same-origin allow-popups allow-forms" title="Banner Ad"/>
+    <div className="w-full h-14 bg-gray-100 border-b border-gray-200 overflow-hidden shrink-0 relative flex items-center justify-center">
+      <div className="absolute inset-0 flex items-center justify-center text-xs text-gray-400">Advertisement</div>
+      <iframe 
+        src={AD_LINKS[adIndex]} 
+        className="relative z-10 w-full h-full border-0"
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+        title="Banner Ad"
+      />
     </div>
   );
 }

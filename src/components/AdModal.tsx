@@ -15,6 +15,28 @@ const AD_LINKS = [
   'https://www.profitablecpmratenetwork.com/nn98c476?key=0b0cdb93e540626b8a2a0f46638fb230'
 ];
 
+const backdropVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 }
+};
+
+const modalVariants = {
+  initial: { scale: 0.9, opacity: 0, y: 20 },
+  animate: { scale: 1, opacity: 1, y: 0 },
+  exit: { scale: 0.9, opacity: 0, y: 20 }
+};
+
+const contentVariants = {
+  initial: { opacity: 0, scale: 0.9 },
+  animate: { opacity: 1, scale: 1 }
+};
+
+const fadeVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 }
+};
+
 export function AdModal({ isOpen, onClose, onReward }: AdModalProps) {
   const [timeLeft, setTimeLeft] = useState(30);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -61,40 +83,71 @@ export function AdModal({ isOpen, onClose, onReward }: AdModalProps) {
   };
 
   return (
-    <animatepresence>
+    <AnimatePresence>
       {isOpen && (
-        <motion.div initial="{{" opacity:="" 0="" }}="" animate="{{" opacity:="" 1="" }}="" exit="{{" opacity:="" 0="" }}="" classname="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <motion.div initial="{{" scale:="" 0.9,="" opacity:="" 0,="" y:="" 20="" }}="" animate="{{" scale:="" 1,="" opacity:="" 1,="" y:="" 0="" }}="" exit="{{" scale:="" 0.9,="" opacity:="" 0,="" y:="" 20="" }}="" transition="{{" type:="" "spring",="" damping:="" 25,="" stiffness:="" 300="" }}="" classname="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative flex flex-col max-h-[90vh]">
+        <motion.div 
+          variants={backdropVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+        >
+          <motion.div 
+            variants={modalVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative flex flex-col max-h-[90vh]"
+          >
             {/* Header */}
-            <div classname="flex items-center justify-between px-6 py-4 border-b border-gray-100 shrink-0">
-              <h3 classname="text-lg font-semibold text-gray-900">Get More Storage</h3>
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 shrink-0">
+              <h3 className="text-lg font-semibold text-gray-900">Get More Storage</h3>
               {(!isPlaying || isFinished) && (
-                <button onclick="{onClose}" classname="p-1 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100">
-                  <x classname="w-5 h-5"/>
+                <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100">
+                  <X className="w-5 h-5" />
                 </button>
               )}
             </div>
 
             {/* Content */}
-            <div classname="p-6 flex flex-col items-center text-center overflow-y-auto">
+            <div className="p-6 flex flex-col items-center text-center overflow-y-auto">
               {!isPlaying && !isFinished ? (
-                <motion.div initial="{{" opacity:="" 0,="" scale:="" 0.9="" }}="" animate="{{" opacity:="" 1,="" scale:="" 1="" }}="" classname="w-full flex flex-col items-center">
-                  <div classname="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-4 shrink-0">
-                    <playcircle classname="w-10 h-10 text-blue-600"/>
+                <motion.div 
+                  variants={contentVariants}
+                  initial="initial"
+                  animate="animate"
+                  className="w-full flex flex-col items-center"
+                >
+                  <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-4 shrink-0">
+                    <PlayCircle className="w-10 h-10 text-blue-600" />
                   </div>
-                  <h4 classname="text-xl font-bold text-gray-900 mb-2">Watch an Ad for 1 GB</h4>
-                  <p classname="text-gray-600 mb-6">
-                    Watch a short 30-second sponsored video to permanently add 1 GB of storage to your NOVA Drive.
+                  <h4 className="text-xl font-bold text-gray-900 mb-2">Watch an Ad for 2 GB</h4>
+                  <p className="text-gray-600 mb-6">
+                    Watch a short 30-second sponsored video to permanently add 2 GB of storage to your NOVA Drive.
                   </p>
-                  <button onclick="{handlePlayAd}" classname="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition-colors">
+                  <button 
+                    onClick={handlePlayAd}
+                    className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition-colors"
+                  >
                     Watch Ad Now
                   </button>
                 </motion.div>
               ) : isPlaying && !isFinished ? (
-                <motion.div initial="{{" opacity:="" 0="" }}="" animate="{{" opacity:="" 1="" }}="" classname="w-full flex flex-col items-center">
-                  <div classname="w-full aspect-video bg-gray-100 rounded-lg mb-6 flex items-center justify-center relative overflow-hidden shrink-0 border border-gray-200">
+                <motion.div 
+                  variants={fadeVariants}
+                  initial="initial"
+                  animate="animate"
+                  className="w-full flex flex-col items-center"
+                >
+                  <div className="w-full aspect-video bg-gray-100 rounded-lg mb-6 flex items-center justify-center relative overflow-hidden shrink-0 border border-gray-200">
                     {/* Real Ad Content via iframe */}
-                    <iframe src="{currentAdUrl}" classname="absolute inset-0 w-full h-full border-0" sandbox="allow-scripts allow-same-origin allow-popups allow-forms" title="Sponsored Ad"/>
+                    <iframe 
+                      src={currentAdUrl} 
+                      className="absolute inset-0 w-full h-full border-0"
+                      sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                      title="Sponsored Ad"
+                    />
                     
                     {/* Timer overlay */}
                     <div className="absolute top-3 right-3 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-md z-10">
@@ -105,8 +158,9 @@ export function AdModal({ isOpen, onClose, onReward }: AdModalProps) {
                 </motion.div>
               ) : (
                 <motion.div 
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                  variants={modalVariants}
+                  initial="initial"
+                  animate="animate"
                   className="w-full flex flex-col items-center"
                 >
                   <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4 shrink-0">
@@ -114,7 +168,7 @@ export function AdModal({ isOpen, onClose, onReward }: AdModalProps) {
                   </div>
                   <h4 className="text-xl font-bold text-gray-900 mb-2">Storage Expanded!</h4>
                   <p className="text-gray-600 mb-6">
-                    You have successfully earned 1 GB of additional storage.
+                    You have successfully earned 2 GB of additional storage.
                   </p>
                   <button 
                     onClick={onClose}

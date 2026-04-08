@@ -14,6 +14,33 @@ import { motion, AnimatePresence } from 'motion/react';
 
 export type ViewType = 'drive' | 'recent' | 'starred' | 'trash';
 
+const fabMenuVariants = {
+  initial: { opacity: 0, y: 20, scale: 0.8 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+  exit: { opacity: 0, y: 20, scale: 0.8 }
+};
+
+const uploadPanelVariants = {
+  initial: { opacity: 0, y: 50 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 50 }
+};
+
+const progressVariants = {
+  initial: { width: 0 },
+  animate: (progress: number) => ({
+    width: `${progress}%`,
+    transition: { ease: "linear", duration: 0.1 }
+  })
+};
+
+const fabVariants = {
+  initial: { rotate: 0 },
+  animate: (isOpen: boolean) => ({
+    rotate: isOpen ? 45 : 0
+  })
+};
+
 export default function App() {
   const {
     files,
@@ -121,9 +148,10 @@ export default function App() {
           <AnimatePresence>
             {isFabOpen && (
               <motion.div 
-                initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 20, scale: 0.8 }}
+                variants={fabMenuVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
                 className="flex flex-col items-end gap-3"
               >
                 <button 
@@ -146,7 +174,10 @@ export default function App() {
           <motion.button 
             onClick={() => setIsFabOpen(!isFabOpen)}
             className="bg-blue-600 text-white p-4 rounded-full shadow-xl hover:bg-blue-700 transition-colors"
-            animate={{ rotate: isFabOpen ? 45 : 0 }}
+            variants={fabVariants}
+            initial="initial"
+            animate="animate"
+            custom={isFabOpen}
           >
             <Plus size={24} />
           </motion.button>
@@ -157,9 +188,10 @@ export default function App() {
       <AnimatePresence>
         {uploadingFiles.length > 0 && showUploadProgress && (
           <motion.div 
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 50 }}
+            variants={uploadPanelVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
             className="fixed bottom-6 right-6 md:bottom-10 md:right-10 w-80 bg-white rounded-lg shadow-2xl border border-gray-200 z-50 overflow-hidden"
           >
             <div className="bg-gray-800 text-white px-4 py-3 flex justify-between items-center">
@@ -178,9 +210,10 @@ export default function App() {
                   <div className="w-full bg-gray-200 rounded-full h-1.5">
                     <motion.div 
                       className="bg-blue-600 h-1.5 rounded-full" 
-                      initial={{ width: 0 }}
-                      animate={{ width: `${file.progress}%` }}
-                      transition={{ ease: "linear", duration: 0.1 }}
+                      variants={progressVariants}
+                      initial="initial"
+                      animate="animate"
+                      custom={file.progress}
                     />
                   </div>
                 </div>
@@ -193,7 +226,7 @@ export default function App() {
       <AdModal 
         isOpen={isAdModalOpen} 
         onClose={() => setIsAdModalOpen(false)} 
-        onReward={() => addStorageQuota(1)} 
+        onReward={() => addStorageQuota(2)} 
       />
 
       <PromoModal
