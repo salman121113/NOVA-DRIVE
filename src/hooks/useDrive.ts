@@ -28,15 +28,15 @@ export interface UploadingFile {
 }
 
 export function useDrive() {
-  const [files, setFiles] = useState<drivefile[]>([]);
-  const [folders, setFolders] = useState<drivefolder[]>([]);
-  const [currentFolderId, setCurrentFolderId] = useState<string |="" null="">(null);
-  const [quotaBytes, setQuotaBytes] = useState<number>(INITIAL_QUOTA_GB * BYTES_PER_GB);
-  const [usedBytes, setUsedBytes] = useState<number>(0);
+  const [files, setFiles] = useState([] as DriveFile[]);
+  const [folders, setFolders] = useState([] as DriveFolder[]);
+  const [currentFolderId, setCurrentFolderId] = useState(null as string | null);
+  const [quotaBytes, setQuotaBytes] = useState(INITIAL_QUOTA_GB * BYTES_PER_GB as number);
+  const [usedBytes, setUsedBytes] = useState(0 as number);
   const [isLoading, setIsLoading] = useState(true);
-  const [dailyPromoUsage, setDailyPromoUsage] = useState<number>(0);
-  const [lastPromoDate, setLastPromoDate] = useState<string>('');
-  const [uploadingFiles, setUploadingFiles] = useState<uploadingfile[]>([]);
+  const [dailyPromoUsage, setDailyPromoUsage] = useState(0 as number);
+  const [lastPromoDate, setLastPromoDate] = useState('' as string);
+  const [uploadingFiles, setUploadingFiles] = useState([] as UploadingFile[]);
 
   const loadData = useCallback(async () => {
     setIsLoading(true);
